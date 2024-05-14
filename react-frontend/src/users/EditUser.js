@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function EditUser() {
@@ -19,10 +19,19 @@ export default function EditUser() {
         setUser({...user, [e.target.name]:e.target.value});          //spred operator ... keep to adding the new object
     };
 
+    useEffect(()=>{
+        loadUser();
+    },[]);
+
     const onSubmit=async (e)=> {           //to submit the data
          e.preventDefault();  //to prevent showing the input data in the url
-         await axios.post("http://localhost:8080/user",user);
+         await axios.put(`http://localhost:8080/user/${id}`,user);
          navigate("/"); //navigate to home page after submited the data
+    }
+
+    const loadUser=async()=>{
+        const result= await axios.get(`http://localhost:8080/user/${id}`)
+        setUser(result.data)
     }
 
   return (
