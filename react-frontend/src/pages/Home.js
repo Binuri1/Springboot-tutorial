@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export default function Home() {
 
   const [users,setUsers]=useState([])  //create object for store user info using useState hook....initial state [](empty array)
 
+  const {id} =useParams()     //useParams hook to get userid 
+  
   useEffect(()=>{                            //useEffect hook use to tell the react that my component needs to do something after render..
                                              //so every time page is open so it will load the user info
         loadUsers();
@@ -19,7 +21,10 @@ export default function Home() {
      setUsers(result.data)
 };
 
-                                        
+  const deleteUser=async(id)  =>{
+    await axios.delete(`http://localhost:8080/user/${id}`)
+    loadUsers()
+  }                                     
   
   return (
     <div className='container'>
@@ -47,7 +52,7 @@ export default function Home() {
           <Link className='btn btn-success mx-2'
              to={`/edituser/${user.id}`}
           >Edit</Link>
-          <button className='btn btn-danger mx-2'>Delete</button>
+          <button className='btn btn-danger mx-2' onClick={()=>deleteUser(user.id)}>Delete</button>
         </td>
       </tr>
       ))          
