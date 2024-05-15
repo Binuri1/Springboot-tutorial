@@ -7,7 +7,7 @@ export default function Home() {
   const [users,setUsers]=useState([])  //create object for store user info using useState hook....initial state [](empty array)
 
   const {id} =useParams()     //useParams hook to get userid 
-  
+
   useEffect(()=>{                            //useEffect hook use to tell the react that my component needs to do something after render..
                                              //so every time page is open so it will load the user info
         loadUsers();
@@ -48,7 +48,7 @@ export default function Home() {
         <td>{user.username}</td>
         <td>{user.email}</td>
         <td>
-          <button className='btn btn-primary mx-2'>View</button>
+          <Link className='btn btn-primary mx-2' to={`/viewuser/${user.id}`}>View</Link>
           <Link className='btn btn-success mx-2'
              to={`/edituser/${user.id}`}
           >Edit</Link>
